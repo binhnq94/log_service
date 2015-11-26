@@ -95,7 +95,7 @@ class LogHandler(object):
             log = log.append(rl, ignore_index=True)
         # print(log)
         sorted_log = log.sort_values(['time'])  # sort time
-        sorted_log = sort.reset_index(drop=True)
+        sorted_log = sorted_log.reset_index(drop=True)
         sorted_log = _fomat_log(sort)
         # print(sort)
         # print(sort.to_json(orient='index'))
