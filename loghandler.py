@@ -29,7 +29,7 @@ class LogHandler(object):
         else:
             self._path = path
         self._list_of_project = None
-        self._log = None
+        self._log = None #dat_frame
         self._list_of_path = None
 
 
@@ -49,12 +49,12 @@ class LogHandler(object):
         for file in glob.glob(self._path + 'n-*.log*'):
             #print(file)
             path.append(file)
-        for file in glob.glob(self._path + 'g-*.log*'):
+        #for file in glob.glob(self._path + 'g-*.log*'):
             #print(file)
-            path.append(file)
-        for file in glob.glob(self._path + 'key*.log*'):
+            #path.append(file)
+        #for file in glob.glob(self._path + 'key.log*'):
             #print(file)
-            path.append(file)
+            #path.append(file)
         for file in glob.glob(self._path + 'horizon.log*'):
             #print(file)
             path.append(file)
@@ -64,10 +64,7 @@ class LogHandler(object):
 
         return path
 
-    def _filter_log(project, level, date_start, date_finish): #Filte Log theo thoi gian 
-        if not self._log:
-            log = read_log()
-        
+    def _filter_log(project, level, date_start, date_finish):         
 
         filtered_log = self._log[(log['time'] >= date_start) & (log['time'] <= date_finish)]
         if project != 'all':
@@ -107,7 +104,7 @@ class LogHandler(object):
         sorted_log = _fomat_log(sort)
         # print(sort)
         # print(sort.to_json(orient='index'))
-        return sort
+        return sorted_log
 
     def project_log(self, list_of_project,project,level,start,end):
 
