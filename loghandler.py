@@ -47,19 +47,14 @@ class LogHandler(object):
         path = []
 
         for file in glob.glob(self._path + 'n-*.log*'):
-            #print(file)
             path.append(file)
-        #for file in glob.glob(self._path + 'g-*.log*'):
-            #print(file)
-            #path.append(file)
+        for file in glob.glob(self._path + 'g-*.log*'):
+            path.append(file)
         #for file in glob.glob(self._path + 'key.log*'):
-            #print(file)
             #path.append(file)
         for file in glob.glob(self._path + 'horizon.log*'):
-            #print(file)
             path.append(file)
         for file in glob.glob(self._path + 'q-*.log*'):
-            #print(file)
             path.append(file)
 
         return path
@@ -126,4 +121,4 @@ if __name__ == "__main__":
     for i in handler._log_path():
         print(i)
 
-    handler.project_log(['nova','horizon','neutron'], 'all', 'all', '2015-11-25 00:00:00', '2015-11-27 00:00:00')
+    for l in handler.project_log(['nova','horizon','neutron'], 'all', 'all', '2015-11-25 00:00:00', '2015-11-27 00:00:00')
