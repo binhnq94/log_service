@@ -35,14 +35,11 @@ class LogHandler(object):
 
     def _understand_rource(resource):
         for project in self._list_of_project:
-            if resource.find('nova'):
-                return "NOVA"
-            elif resource.find('neutron'):
-                return "NEUTRON"
-            elif resource.find()
+            if resource.find(project):
+                return project.upper(project)
 
     def _fomat_log(self, dataframe):
-        for row in dataframe:
+        for row in dataframe: 
             row['project'] = self._understand_rouce(row['resource'])
 
 
@@ -64,8 +61,6 @@ class LogHandler(object):
         for file in glob.glob(self._path + 'q-*.log*'):
             #print(file)
             path.append(file)
-
-        print(path)
 
         return path
 
@@ -116,7 +111,7 @@ class LogHandler(object):
 
     def project_log(self, list_of_project,project,level,start,end):
 
-        if not self._list_of_project:
+        if not self._list_of_project or not self._log_path:
             self._list_of_project = list_of_project
             self._log_path = self._log_path()
         self._log = self._read_log()
@@ -130,4 +125,6 @@ class LogHandler(object):
 
 if __name__ == "__main__":
     handler = LogHandler()
-    handler._log_path()
+
+    for i in handler._log_path():
+        print(i)
