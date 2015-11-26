@@ -69,17 +69,21 @@ class LogHandler(object):
         return filtered_log.to_json(orient="index")
 
     def _statistic_log():
-        #nhat viet
-        count_per_level = pd.DataFrame({'count' : sort.groupby( ["level"] ).size()}).reset_index()
-        sum_each = pd.DataFrame({'sum' : gr.groupby(["level"])["count"].sum()}).reset_index()
-        total = gr['count'].sum()
-        summary = {}
-        summary['Total'] = total
-        for index, col in sum_each.iterrows():
-            summary[col['level']] = col['sum']
-        
-        statistic['summary'] = summary
-        return statistic
+    #nhat viet
+    log = self._log
+    for index, row in log.iterrows():
+        row['time'] = datetime.datetime.strftime(row['time'],"%a %b %dth %Y")
+    #dem so log moi loai moi ngay
+    statistic = pd.DataFrame({'count' : log.groupby( ["time","level"] ).size()}).reset_index()
+    # sum_each = pd.DataFrame({'sum' : gr.groupby(["level"])["count"].sum()}).reset_index()
+    # total = gr['count'].sum()
+    # summary = {}
+    # summary['Total'] = total
+    # for index, col in sum_each.iterrows():
+    #     summary[col['level']] = col['sum']
+    
+    # statistic['summary'] = summary
+    return statistic.to_json(orient="record")
     
 
     def _read_log(self):
