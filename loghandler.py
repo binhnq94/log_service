@@ -83,7 +83,7 @@ class LogHandler(object):
     
 
     def _read_log(self):
-        path = self._log_path()
+        path = self.__log_path
         # print(path)
         cols = ['time', 'level', 'resource', 'message']  # Set columns for DataFrame
 
@@ -105,7 +105,7 @@ class LogHandler(object):
 
         if not self._list_of_project or not self._log_path:
             self._list_of_project = list_of_project
-            self._log_path = self._log_path()
+            self.__log_path = self._log_path()
         self._log = self._read_log()
         log = filtered_log(list_of_project,project,level,start,end)
         return log.to_json(orient='index')
