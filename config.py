@@ -22,4 +22,4 @@ LOG_SERVICE_URL = 'http://0.0.0.0:8080'
 SERVICE_IP = '0.0.0.0'
 SERVICE_PORT = 8080
 
-LOG_PATH = "/home/techbk/PycharmProjects/pandas/"
+LOG_PATH = "/opt/stack/logs/"

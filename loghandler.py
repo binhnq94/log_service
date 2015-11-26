@@ -17,6 +17,7 @@
 import pandas as pd
 import glob
 import config
+import time
 
 __author__ = 'techbk,thang,nhat'
 
@@ -27,23 +28,78 @@ class LogHandler(object):
             self._path = config.LOG_PATH
         else:
             self._path = path
+        self._list_of_project = None
+        self._log = None
+        self._list_of_path = None
 
-    def _log_path(self, name_service):
-        path = {}
-        # print(self._path)
-        # print(glob.glob(self._path))
-        if name_service == 'nova':
-            path['nova'] = []
-            for file in glob.glob(self._path + '*.log'):
-                print(file)
-                path['nova'].append(file)
+
+    def _understand_rource(resource):
+        for project in self._list_of_project:
+            if resource.find('nova'):
+                return "NOVA"
+            elif resource.find('neutron'):
+                return "NEUTRON"
+            elif resource.find()
+
+    def _fomat_log(self, dataframe):
+        for row in dataframe:
+            row['project'] = self._understand_rouce(row['resource'])
+
+
+    def _log_path(self):
+        path = []
+
+        for file in glob.glob(self._path + 'n-*.log*'):
+            #print(file)
+            path.append(file)
+        for file in glob.glob(self._path + 'g-*.log*'):
+            #print(file)
+            path.append(file)
+        for file in glob.glob(self._path + 'key*.log*'):
+            #print(file)
+            path.append(file)
+        for file in glob.glob(self._path + 'horizon.log*'):
+            #print(file)
+            path.append(file)
+        for file in glob.glob(self._path + 'q-*.log*'):
+            #print(file)
+            path.append(file)
+
+        print(path)
 
         return path
 
-    def _read_log(self, log_name):
-        path = self._log_path(log_name)
+    def _filter_log(project, level, date_start, date_finish): #Filte Log theo thoi gian 
+        if not self._log:
+            log = read_log()
+        
+
+        filtered_log = self._log[(log['time'] >= date_start) & (log['time'] <= date_finish)]
+        if project != 'all':
+            filtered_log = filtered_log[(log['project'] == project)]
+        if level != 'all':
+            filtered_log = filtered_log[(log['level'])]
+        return filtered_log.to_json(orient="index")
+
+    def _statistic_log():
+        #nhat viet
+        count_per_level = pd.DataFrame({'count' : sort.groupby( ["level"] ).size()}).reset_index()
+        sum_each = pd.DataFrame({'sum' : gr.groupby(["level"])["count"].sum()}).reset_index()
+        total = gr['count'].sum()
+        summary = {}
+        summary['Total'] = total
+        for index, col in sum_each.iterrows():
+            summary[col['level']] = col['sum']
+        
+        statistic['summary'] = summary
+        return statistic
+    
+
+    def _read_log(self, project):
+        path = self._log_path()
         # print(path)
-        cols = ['dates', 'pid', 'level', 'prog', 'infor']  # Set columns for DataFrame
+        cols = ['time', 'level', 'resource', 'message']  # Set columns for DataFrame
+
         log = pd.DataFrame()
         for log_file in path[log_name]:
             # print(log_file)
@@ -51,24 +107,27 @@ class LogHandler(object):
             # print(rl)
             log = log.append(rl, ignore_index=True)
         # print(log)
-        sort = log.sort_values(['dates'], ascending=False)  # sort time
-        sort = sort.reset_index(drop=True)
+        sorted_log = log.sort_values(['dates'])  # sort time
+        sorted_log = sort.reset_index(drop=True)
+        sorted_log = _fomat_log(sort)
         # print(sort)
         # print(sort.to_json(orient='index'))
-        return sort.to_json(orient='index')
+        return sort
 
-    def projectlog(self, project):
-        """
+    def project_log(self, list_of_project,project,level,start,end):
 
-        :param project:
-        :return:
-        """
-        return self._read_log(project)
+        if not self._list_of_project:
+            self._list_of_project = list_of_project
+            self._log_path = self._log_path()
+        self._log = self._read_log()
+        log = filtered_log(list_of_project,project,level,start,end)
+        return log.to_json(orient='index')
 
-    def instancelog(self, instance):
-        pass
+    def tong_hop(self, list_of_project,project,level,start,end):
+        result = self._statistic_log()
 
+        return json.dumps(result)
 
 if __name__ == "__main__":
     handler = LogHandler()
-    handler.projectlog('nova')
+    handler._log_path()

@@ -20,10 +20,8 @@
 
 import asyncio
 from aiohttp import web
-# import os
 import json
 import loghandler
-import pcaphandler
 import config
 
 __author__ = 'techbk'
@@ -36,29 +34,7 @@ class UrlHandler(object):
         :param _loop: object
         """
         self._loop = _loop
-        self._pcapfilehandler = pcaphandler.PcapFileHandler()
         self._loghandler = loghandler.LogHandler()
-
-    @asyncio.coroutine
-    def pcap(self, request):
-        # print(request.headers)
-        """
-
-        :param request:
-        :return:
-        """
-        print(request.GET)
-        # print(request.content_type)
-        # json_data = yield from request.json()
-        # print(json_data)
-        data = yield from request.post()
-        print(data)
-
-        input_file = data['file'].file
-        content = input_file.read()
-        asyncio.async(self._pcapfilehandler.handle_file_pcap(data['ID_Client'], data['file'].filename, content))
-
-        return web.Response(body=b"ok")
 
     @asyncio.coroutine
     def test(self, request):
@@ -77,20 +53,30 @@ class UrlHandler(object):
         print(text)
         return web.Response(body=text.encode('utf-8'))
 
-    @asyncio.coroutine
-    def instancelog(self, request):
-        instance = request.GET['instance']
 
-        jsonlog = self._loghandler.instancelog(instance)
+    @asyncio.coroutine
+    def project_log(self, request):
+        list_of_project = request.GET['list']
+        project = request.GET['project']
+        level = request.GET['level']
+        start = request.GET['start']
+        end = request.GET['end']
+
+        jsonlog = self._loghandler.projectlog(list_of_project,project,level,start,end)
+        print(jsonlog)
         jsonlog = jsonlog.encode('utf-8')
 
         return web.Response(body=jsonlog)
 
     @asyncio.coroutine
-    def projectlog(self, request):
+    def tong_hop():
+        
         project = request.GET['project']
+        level = request.GET['level']
+        start = request.GET['start']
+        end = request.GET['end']
 
-        jsonlog = self._loghandler.projectlog(project)
+        jsonlog = self._loghandler.tong_hop(project,level,start,end)
         print(jsonlog)
         jsonlog = jsonlog.encode('utf-8')
 
@@ -98,15 +84,8 @@ class UrlHandler(object):
 
 
 @asyncio.coroutine
-def index(request):
-    print(request.path)
-    return web.Response(body=b"Welcome")
-
-
-@asyncio.coroutine
 def init(_loop):
     """
-    tao task pasrsing file pcap
     asyncio.async()
     :param _loop:
     :return:
@@ -115,15 +94,9 @@ def init(_loop):
 
     app = web.Application(loop=_loop)
 
-    # app.router.add_route('GET', '/', index)
-    app.router.add_route('POST', '/pcap', url_handler.pcap)
     app.router.add_route('GET', '/test', url_handler.test)
     app.router.add_route('GET', '/projectlog', url_handler.projectlog)
-    app.router.add_route('GET', '/instancelog', url_handler.instancelog)
-
-    # app.router.add_route('GET', '/doblastn', url_handler.doblastn)
-    # app.router.add_route('GET', '/dostart_app1', url_handler.do_start_app1)
-    # app.router.add_route('GET', '/checkresult/{id}', url_handler.check_result)
+    app.router.add_route('GET', '/tonghop', url_handler.tong_hop)
 
     handler = app.make_handler()
     srv = yield from _loop.create_server(handler, config.SERVICE_IP, config.SERVICE_PORT)
