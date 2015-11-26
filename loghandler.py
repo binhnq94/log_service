@@ -94,7 +94,7 @@ class LogHandler(object):
             # print(rl)
             log = log.append(rl, ignore_index=True)
         # print(log)
-        sorted_log = log.sort_values(['dates'])  # sort time
+        sorted_log = log.sort_values(['time'])  # sort time
         sorted_log = sort.reset_index(drop=True)
         sorted_log = _fomat_log(sort)
         # print(sort)
