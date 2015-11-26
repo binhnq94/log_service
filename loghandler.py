@@ -88,7 +88,7 @@ class LogHandler(object):
         cols = ['time', 'level', 'resource', 'message']  # Set columns for DataFrame
 
         log = pd.DataFrame()
-        for log_file in path[log_name]:
+        for log_file in path:
             # print(log_file)
             rl = pd.read_csv(log_file, sep=',', names=cols)  # Read file log and display to dataframe's format
             # print(rl)
