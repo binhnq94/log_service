@@ -96,7 +96,7 @@ class LogHandler(object):
         # print(log)
         sorted_log = log.sort_values(['time'])  # sort time
         sorted_log = sorted_log.reset_index(drop=True)
-        sorted_log = self._fomat_log(sort)
+        sorted_log = self._fomat_log(sorted_log)
         # print(sort)
         # print(sort.to_json(orient='index'))
         return sorted_log
@@ -107,7 +107,7 @@ class LogHandler(object):
             self._list_of_project = list_of_project
             self.__log_path = self._log_path()
         self._log = self._read_log()
-        log = filtered_log(list_of_project,project,level,start,end)
+        log = self._filtered_log(list_of_project,project,level,start,end)
         return log.to_json(orient='index')
 
     def tong_hop(self, list_of_project,project,level,start,end):
