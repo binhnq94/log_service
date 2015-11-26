@@ -87,7 +87,7 @@ class LogHandler(object):
         return statistic
     
 
-    def _read_log(self, project):
+    def _read_log(self):
         path = self._log_path()
         # print(path)
         cols = ['time', 'level', 'resource', 'message']  # Set columns for DataFrame
