@@ -121,4 +121,5 @@ if __name__ == "__main__":
     for i in handler._log_path():
         print(i)
 
-    for l in handler.project_log(['nova','horizon','neutron'], 'all', 'all', '2015-11-25 00:00:00', '2015-11-27 00:00:00')
+    for l in handler.project_log(['nova','horizon','neutron'], 'all', 'all', '2015-11-25 00:00:00', '2015-11-27 00:00:00'):
+        print(l)
